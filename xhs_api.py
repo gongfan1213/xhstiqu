@@ -31,6 +31,11 @@ try:
     co.set_argument('--disable-features=IsolateOrigins,site-per-process')  # 禁用站点隔离
     co.set_argument('--disable-blink-features=AutomationControlled')  # 禁用自动化控制检测
     co.set_argument('--window-size=1920,1080')  # 设置窗口大小
+
+    # 设置webshare代理
+    proxy = "http://nbedpcuw:u0w2acmb90yw@198.23.239.134:6540"
+    co.set_argument(f'--proxy-server={proxy}')
+
     logger.info("Chrome选项配置完成")
 
     # 使用配置创建页面
@@ -114,9 +119,9 @@ try:
         try:
             uvicorn.run(
                 app, 
-                host="127.0.0.1", 
+                host="0.0.0.0", 
                 port=3334, 
-                log_level="debug"
+                log_level="debug",
             )
         except Exception as e:
             logger.error(f"启动服务时出错: {str(e)}")
