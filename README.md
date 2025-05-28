@@ -1,4 +1,7 @@
 # xhstiqu
+![image](https://github.com/user-attachments/assets/cadc7005-785e-402c-8f19-0f44e59a5038)
+
+
 
 总结与结论:
 我们通过一系列排查，确认了以下几点:
