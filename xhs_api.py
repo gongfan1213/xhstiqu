@@ -45,18 +45,6 @@ try:
     page.set.timeouts(30, 30, 30)  # 页面加载、脚本执行、元素等待超时时间都设为30秒
     logger.info("Chrome浏览器初始化完成")
 
-    # 检查代理是否生效
-    logger.info("检查代理是否生效，访问httpbin.org/ip ...")
-    page.get("http://httpbin.org/ip")
-    with open("proxy_check.html", "w", encoding="utf-8") as f:
-        f.write(page.html)
-    logger.info(f"代理检测页面内容已保存到 proxy_check.html")
-
-    # 设置cookie
-    cookie_str = "abRequestId=64c4b337-8610-5b62-ab45-5b57206a1b43; xsecappid=xhs-pc-web; a1=196f091dedf2muagwsqnzt07h3weu50k6xdbhxd0d50000223298; webId=fa2345bf32be117abf942d2b77ea2152; gid=yjKi8jydj2KiyjKi8jyfdCCffiJ670kEMAIuf8f98WxqED28d728Tx888JJqJjY8jK8y8fKi; webBuild=4.64.0; acw_tc=0ad6fbc417484229618205469e391269b311fac59b7fa39013cac8a7d26e2f; websectiga=8886be45f388a1ee7bf611a69f3e174cae48f1ea02c0f8ec3256031b8be9c7ee; sec_poison_id=e2aff3fa-ebfa-4128-8d32-1218606fd12a; web_session=040069b2fdc2f52f159e689a033a4be8a1f773; loadts=1748423208747"
-    page.set.cookies(cookie_str)
-    logger.info("已设置小红书cookie")
-
     @app.get("/")
     async def root():
         return {"message": "服务正在运行"}
@@ -65,12 +53,8 @@ try:
     async def extract(url: str = Query(..., description="小红书笔记URL")):
         try:
             logger.info(f"开始处理URL: {url}")
-            # 访问目标url并保存页面源码
-            logger.info(f"访问目标URL: {url}")
             page.get(url)
-            with open("debug.html", "w", encoding="utf-8") as f:
-                f.write(page.html)
-            logger.info("已保存目标页面源码到 debug.html")
+            logger.info("页面加载完成")
             
             # 等待页面加载
             time.sleep(3)
@@ -79,7 +63,7 @@ try:
             title = None
             content = None
             
-            # 更新xpath选择器（如需调整请用F12重新获取）
+            # 尝试不同的标题选择器
             title_selectors = [
                 'xpath://div[@id="detail-title"]',
                 'xpath://h1[@class="title"]',
